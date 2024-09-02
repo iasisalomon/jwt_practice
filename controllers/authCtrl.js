@@ -15,9 +15,9 @@ module.exports.signup_post = async (req, res) => {
             email: email,
             password: password,
         });
-        res.json(user);
+        res.status(201).json(user);
     } catch (error) {
-        res.json(error);
+        res.status(400).json(error);
     }
 };
 

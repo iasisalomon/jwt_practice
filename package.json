@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "prod": "node app.js",
+    "dev": "nodemon app.js"
+  },
   "dependencies": {
     "bootstrap": "^5.3.3",
     "ejs": "^3.1.10",
