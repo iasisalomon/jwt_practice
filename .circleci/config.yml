@@ -10,4 +10,9 @@ jobs:
             - image: cimg/node:22.7.0
         steps:
             - checkout
-            - run: node --version
+            - run:
+                  name: install deps
+                  command: npm install
+            - run:
+                  name: run tests
+                  command: npm run test
