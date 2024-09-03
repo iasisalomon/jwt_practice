@@ -20,7 +20,7 @@ const handleErrors = (err) => {
 
 //token fxs
 const createToken = (id) => {
-    return jwt.sign({ id }, secret);
+    return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
 module.exports.signup_get = (req, res) => {
