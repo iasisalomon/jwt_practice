@@ -1,5 +1,51 @@
 <%- include('partials/header'); -%>
 
-<h1>Login</h1>
+<div
+    class="container align-items-center justify-content-center justify-content-md-between"
+>
+    <div class="card m-auto" style="width: 18rem">
+        <div class="card-body">
+            <h5 class="card-title">Login</h5>
+            <form>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        id="email"
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        id="password"
+                    />
+                </div>
+                <div id="errors" class="form-text my-3" style="color: red">
+                    No errors
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const email = form.email.value;
+        const password = form.password.value;
+
+        console.log("email", email);
+        console.log("password", password);
+    });
+</script>
 
 <%- include('partials/footer'); -%>
