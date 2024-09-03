@@ -3,10 +3,17 @@ const User = require("../models/Users");
 //handle errors
 const handleErrors = (err) => {
     const errors = [];
+
     // checking validation
     if (err.name === "ValidationError") {
         Object.values(err.errors).map((val) => errors.push(val.message));
     }
+
+    //duplicate with code
+    if (err.code === 11000) {
+        errors.push("email is already in use");
+    }
+
     return { errors: errors };
 };
 
