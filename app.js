@@ -6,6 +6,9 @@ const cookieParser = require("cookie-parser");
 //import routes
 const authRoutes = require("./routes/authRoutes");
 
+//env config
+require("dotenv").config();
+
 //express init
 const app = express();
 
