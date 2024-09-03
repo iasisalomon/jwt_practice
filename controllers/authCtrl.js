@@ -1,4 +1,5 @@
 const User = require("../models/Users");
+const jwt = require("jsonwebtoken");
 
 //handle errors
 const handleErrors = (err) => {
@@ -17,6 +18,11 @@ const handleErrors = (err) => {
     return { errors: errors };
 };
 
+//token fxs
+const createToken = (id) => {
+    return jwt.sign({ id }, secret);
+};
+
 module.exports.signup_get = (req, res) => {
     res.render("signup");
 };
@@ -32,6 +38,7 @@ module.exports.signup_post = async (req, res) => {
             email: email,
             password: password,
         });
+
         res.status(201).json(user);
     } catch (error) {
         const errors = handleErrors(error);
