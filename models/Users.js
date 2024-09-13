@@ -1,6 +1,10 @@
+//packages
 const mongoose = require("mongoose");
-const isEmailValid = require("../helpers/emailValidator");
 const bcrypt = require("bcrypt");
+
+//helpers
+const isEmailValid = require("../helpers/emailValidator");
+const { auth: authEnums } = require("../enums/enums");
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -30,9 +34,9 @@ userSchema.statics.login = async function (email, password) {
         if (auth) {
             return user;
         }
-        throw Error("incorrect password");
+        throw Error(authEnums.passwordError);
     }
-    throw Error("incorrect email");
+    throw Error(authEnums.emailError);
 };
 
 const User = mongoose.model("user", userSchema);
