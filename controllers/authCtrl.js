@@ -18,6 +18,11 @@ module.exports.login_get = (req, res) => {
     res.render("login");
 };
 
+module.exports.logout_get = (req, res) => {
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.redirect("/");
+};
+
 module.exports.signup_post = async (req, res) => {
     const { email, password } = req.body;
     try {
