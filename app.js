@@ -6,6 +6,9 @@ const cookieParser = require("cookie-parser");
 //import routes
 const authRoutes = require("./routes/authRoutes");
 
+//Middleware
+const { requireAuth } = require("./middleware/authMiddleware");
+
 //env config
 require("dotenv").config();
 
@@ -38,7 +41,7 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
-app.get("/drinks", (req, res) => {
+app.get("/drinks", requireAuth, (req, res) => {
     res.render("drinks");
 });
 //routes
