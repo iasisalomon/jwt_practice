@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
 
 //Middleware
-const { requireAuth } = require("./middleware/authMiddleware");
+const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 
 //env config
 require("dotenv").config();
@@ -37,12 +37,13 @@ mongoose
     });
 
 //routes
+app.get("*", checkUser);
 app.get("/", (req, res) => {
     res.render("home");
 });
-
 app.get("/drinks", requireAuth, (req, res) => {
     res.render("drinks");
 });
+
 //routes
 app.use(authRoutes);
