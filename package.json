@@ -1,7 +1,9 @@
 {
+  "type": "module",
   "scripts": {
     "prod": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "test": "mocha --exit"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -13,5 +15,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.4",
     "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "chai-http": "^5.0.0",
+    "mocha": "^10.7.3"
   }
 }
