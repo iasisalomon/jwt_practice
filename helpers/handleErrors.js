@@ -1,28 +1,29 @@
-const enums = require("../enums/enums");
+import { auth } from "../enums/enums.js";
 
-module.exports = handleErrors = (err) => {
+const handleErrors = (err) => {
     const errors = [];
-    //email not in DB
-    if (err.message) {
-        if (err.message === enums.auth.emailError) {
-            errors.push(enums.auth.emailError);
-        }
-    }
-    if (err.message) {
-        if (err.message === enums.auth.passwordError) {
-            errors.push(enums.auth.passwordError);
-        }
-    }
-    if (err.message)
-        if (err.name === "ValidationError") {
-            //login error
-            // checking validation
-            Object.values(err.errors).map((val) => errors.push(val.message));
-        }
-    //duplicate with code
-    if (err.code === 11000) {
-        errors.push("email is already in use");
+
+    // Email not in DB
+    if (err.message === auth.emailError) {
+        errors.push(auth.emailError);
     }
 
-    return { errors: errors };
+    // Password error
+    if (err.message === auth.passwordError) {
+        errors.push(auth.passwordError);
+    }
+
+    // Validation error
+    if (err.name === "ValidationError") {
+        Object.values(err.errors).forEach((val) => errors.push(val.message));
+    }
+
+    // Duplicate error (code 11000)
+    if (err.code === 11000) {
+        errors.push("Email is already in use");
+    }
+
+    return { errors };
 };
+
+export default handleErrors;

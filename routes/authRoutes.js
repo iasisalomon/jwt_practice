@@ -1,21 +1,21 @@
-//import and invoke router
-const { Router } = require("express");
+// Import and invoke router
+import { Router } from "express";
 
-// import controllers
-const authCtrl = require("../controllers/authCtrl");
+// Import controllers
+import * as authCtrl from "../controllers/authCtrl.js";
 
-//invoke router
+// Invoke router
 const router = Router();
 
-//login
+// Login routes
 router.get("/login", authCtrl.login_get);
 router.post("/login", authCtrl.login_post);
 
-//login
+// Logout route
 router.get("/logout", authCtrl.logout_get);
 
-//signup
+// Signup routes
 router.get("/signup", authCtrl.signup_get);
 router.post("/signup", authCtrl.signup_post);
 
-module.exports = router;
+export default router;

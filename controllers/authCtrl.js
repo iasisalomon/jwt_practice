@@ -1,38 +1,44 @@
-const User = require("../models/Users");
-const jwt = require("jsonwebtoken");
-const { maxAge, auth: authEnums } = require("../enums/enums");
-const handleErrors = require("../helpers/handleErrors");
+import jwt from "jsonwebtoken";
 
-//token fxs
+//Import files
+import User from "../models/Users.js";
+import { maxAge, auth as authEnums } from "../enums/enums.js";
+import handleErrors from "../helpers/handleErrors.js";
+
+// Token functions
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: maxAge,
     });
 };
 
-module.exports.signup_get = (req, res) => {
+// GET signup page
+export const signup_get = (req, res) => {
     res.render("signup");
 };
 
-module.exports.login_get = (req, res) => {
+// GET login page
+export const login_get = (req, res) => {
     res.render("login");
 };
 
-module.exports.logout_get = (req, res) => {
+// GET logout and clear cookie
+export const logout_get = (req, res) => {
     res.cookie("jwt", "", { maxAge: 1 });
     res.redirect("/");
 };
 
-module.exports.signup_post = async (req, res) => {
+// POST signup data
+export const signup_post = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.create({
-            email: email,
-            password: password,
+            email,
+            password,
         });
         const token = createToken(user._id);
 
-        //responses
+        // Set cookie and send response
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(201).json({ user: user._id });
     } catch (error) {
@@ -41,13 +47,14 @@ module.exports.signup_post = async (req, res) => {
     }
 };
 
-module.exports.login_post = async (req, res) => {
+// POST login data
+export const login_post = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.login(email, password);
         const token = createToken(user._id);
 
-        //responses
+        // Set cookie and send response
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(200).json({ user: user._id });
     } catch (error) {

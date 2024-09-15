@@ -1,42 +1,49 @@
-//import base
-const express = require("express");
-const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
+// Import base packages
+import express from "express";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 
-//import routes
-const authRoutes = require("./routes/authRoutes");
+// Import routes
+import authRoutes from "./routes/authRoutes.js";
 
-//Middleware
-const { requireAuth, checkUser } = require("./middleware/authMiddleware");
+// Import middleware
+import { requireAuth, checkUser } from "./middleware/authMiddleware.js";
 
-//env config
-require("dotenv").config();
+// Configure environment variables
+dotenv.config();
 
-//express init
+// Initialize express app
 const app = express();
 
-//middleware
+// Middleware
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 
-//view engine
+// Set view engine
 app.set("view engine", "ejs");
 
-//database connection
+// Database connection
 const dbURI = "mongodb://root:example@localhost:27017/records?authSource=admin";
 
-mongoose
-    .connect(dbURI)
-    .then((result) => {
-        app.listen(3000);
-        console.log("server started successfully");
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+const startServer = async () => {
+    try {
+        await mongoose.connect(dbURI);
+        app.listen(process.env.PORT, () => {
+            console.log(
+                "Server started successfully on port " + process.env.PORT,
+            );
+        });
+    } catch (error) {
+        console.log("Error starting server:", error);
+    }
+};
 
-//routes
+// Start the server
+startServer();
+
+// Routes
 app.get("*", checkUser);
 app.get("/", (req, res) => {
     res.render("home");
@@ -45,5 +52,5 @@ app.get("/drinks", requireAuth, (req, res) => {
     res.render("drinks");
 });
 
-//routes
+// Auth routes
 app.use(authRoutes);

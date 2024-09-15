@@ -1,17 +1,17 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/Users");
+import jwt from "jsonwebtoken";
+import User from "../models/Users.js";
 
-const requireAuth = (req, res, next) => {
+export const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 
-    //check jwt exists & verified
+    // Check if JWT exists and is verified
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
             if (err) {
-                console.log("error.message", error.message);
+                console.log("Error:", err.message);
                 res.redirect("/login");
             } else {
-                console.log("decodedToken", decodedToken);
+                console.log("Decoded Token:", decodedToken);
                 next();
             }
         });
@@ -20,19 +20,18 @@ const requireAuth = (req, res, next) => {
     }
 };
 
-//check current User
-const checkUser = (req, res, next) => {
+// Check current user
+export const checkUser = (req, res, next) => {
     const token = req.cookies.jwt;
 
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
             if (err) {
-                console.log("error.message", error.message);
-
+                console.log("Error:", err.message);
                 res.redirect("/login");
             } else {
-                console.log("decodedToken", decodedToken);
-                let user = await User.findById(decodedToken.id);
+                console.log("Decoded Token:", decodedToken);
+                const user = await User.findById(decodedToken.id);
                 res.locals.user = user;
                 next();
             }
@@ -42,5 +41,3 @@ const checkUser = (req, res, next) => {
         next();
     }
 };
-
-module.exports = { requireAuth, checkUser };
