@@ -54,3 +54,5 @@ app.get("/drinks", requireAuth, (req, res) => {
 
 // Auth routes
 app.use(authRoutes);
+
+export default app;
