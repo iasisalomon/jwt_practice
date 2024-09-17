@@ -24,12 +24,12 @@ app.use(cookieParser());
 // Set view engine
 app.set("view engine", "ejs");
 
-// Database connection
-const dbURI = "mongodb://root:example@localhost:27017/records?authSource=admin";
-
 const startServer = async () => {
     try {
-        await mongoose.connect(dbURI);
+        await mongoose.connect(
+            process.env.DATABASE_URI ||
+                "mongodb://root:example@localhost:27017/records?authSource=admin",
+        );
         app.listen(process.env.PORT, () => {
             console.log(
                 "Server started successfully on port " + process.env.PORT,
