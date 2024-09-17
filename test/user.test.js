@@ -16,14 +16,10 @@ let jwtToken;
 
 // Start the server before running the tests
 before(async () => {
-    try {
-        server = app.listen(process.env.TEST_PORT, () => {
-            console.log("Test server running on port " + process.env.TEST_PORT);
-        });
-    } catch (error) {
-        console.error("Error starting the test server:", error);
-        throw error; // Optionally re-throw the error to handle it higher up
-    }
+    server = app.listen(process.env.TEST_PORT, () => {
+        console.log("Test server running on port " + process.env.TEST_PORT);
+    });
+
     try {
         await User.create({
             email: "testuser@example.com",
@@ -47,15 +43,9 @@ after(async () => {
     } catch (error) {
         console.error("Error cleaning up test user:", error);
     }
-
-    try {
-        server.close(() => {
-            console.log("Test server closed");
-        });
-    } catch (error) {
-        console.error("Error starting the test server:", error);
-        throw error; // Optionally re-throw the error to handle it higher up
-    }
+    server.close(() => {
+        console.log("Test server closed");
+    });
 });
 
 describe("User Authentication and Routes", () => {
