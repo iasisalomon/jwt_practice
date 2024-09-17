@@ -54,7 +54,7 @@ describe("User Authentication and Routes", () => {
         const res = await axios.post(
             `http://localhost:${process.env.TEST_PORT}/signup`,
             {
-                email: "newuser@example.com",
+                email: Math.round(Math.random() * 9999) + "@example.com",
                 password: "newpassword",
             },
         );
