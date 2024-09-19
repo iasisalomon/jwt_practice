@@ -28,7 +28,7 @@ const startServer = async () => {
     try {
         await mongoose.connect(
             process.env.DATABASE_URI ||
-                "mongodb://root:example@localhost:27017/records?authSource=admin",
+                "mongodb://localhost:27017/test?authSource=admin",
         );
         app.listen(process.env.PORT, () => {
             console.log(

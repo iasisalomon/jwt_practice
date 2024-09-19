@@ -8,11 +8,27 @@ jobs:
     test:
         docker:
             - image: cimg/node:20.17.0
+              environment:
+                  MONGODB_URI: mongodb://localhost:27017/test
+                  PORT: 3000
+            - image: mongo:4.4
+              name: mongo
         steps:
             - checkout
             - run:
+                  name: Install dockerize
+                  command: |
+                      curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz | tar -C /usr/local/bin -xzv
+            - run:
                   name: install deps
                   command: npm install
+            - run:
+                  name: start API in background
+                  command: npm start &
+                  background: true
+            - run:
+                  name: wait for MongoDB
+                  command: dockerize -wait tcp://localhost:27017 -timeout 1m
             - run:
                   name: run tests
                   command: npm run test
