@@ -16,10 +16,6 @@ jobs:
         steps:
             - checkout
             - run:
-                  name: Install dockerize
-                  command: |
-                      curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz | tar -C /usr/local/bin -xzv
-            - run:
                   name: install deps
                   command: npm install
             - run:
